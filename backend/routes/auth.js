@@ -1,5 +1,5 @@
 const express = require('express');
-const { add, get } = require('../data/user');
+const { add, get, getAll } = require('../data/user');
 const { createJSONToken, isValidPassword } = require('../util/auth');
 const { isValidEmail, isValidText } = require('../util/validation');
 
@@ -63,6 +63,16 @@ router.post('/login', async (req, res) => {
 
   const token = createJSONToken(email);
   res.json({ token });
+});
+
+router.get('/', async (req, res, next) => {
+  console.log(req.token);
+  try {
+    const users = await getAll();
+    res.json({ users: users });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

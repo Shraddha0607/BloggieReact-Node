@@ -1,24 +1,77 @@
+import { Link, useSearchParams, Form, redirect } from 'react-router-dom';
 
-function Login() {
+function AuthForm() {
+    const [searchParams] = useSearchParams();
+    console.log(searchParams, " are the search params");
+    const isLogin = searchParams.get('mode') === 'login';
+
+
     return (
         <div>
-            <form>
-                <div class="row mb-3">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3"/>
+            <Form method='post' >
+                <h1>{isLogin ? 'Log in' : 'Create a new User'}</h1>
+                <div className="row mb-3">
+                    <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+                    <div className="col-sm-10">
+                        <input type="email" className="form-control" id="email" name="email" required />
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword3"/>
+                <div className="row mb-3">
+                    <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
+                    <div className="col-sm-10">
+                        <input type="password" className="form-control" id="password" name="password" required/>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign in</button>
-            </form>
+                <div>
+                    <Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
+                        {isLogin ? 'Create new user' : 'Login'}
+                    </Link>
+
+                    <button className="btn btn-primary">Save</button>
+
+                </div>
+            </Form>
         </div>
     )
 }
 
-export default Login
+export default AuthForm;
+
+export async function action({ request }) {
+    const searchParams = new URL(request.url).searchParams;
+    const mode = searchParams.get('mode') || 'login';
+
+    if(mode != 'login' && mode != 'signup') {
+        throw new Response ({ message: 'Unsupported mode.'}, { status: 422 });
+    }
+
+    const data = await request.formData();
+    const authData = {
+        email: data.get('email'),
+        password: data.get('password'),
+    };
+
+    const response = await fetch('http://localhost:8080/users/' + mode, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(authData)
+    });
+
+    if(response.status === 422 || response.status === 401) {
+        return response;
+    }
+
+    if(!response) {
+        throw new Response ({ message: 'Could not authenticate user.'}, { status: 500 });
+    }
+
+    const resData = await response.json();
+    const token = resData.token;
+
+    localStorage.setItem('token', token);
+
+    return redirect('/');
+
+}

@@ -5,7 +5,8 @@ import MainLayout from './components/MainLayout'
 
 import Home from './pages/Home';
 import AdminLayout from './components/AdminLayout';
-import Login from './components/AuthForm';
+import AuthForm, { action as authAction } from './components/AuthForm';
+import UsersPage, {loader as usersLoader} from './components/user/Users';
 
 const router = createBrowserRouter([
   {
@@ -17,12 +18,20 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: 'Admin',
-        element: <AdminLayout />
+        path: 'admin',
+        element: <AdminLayout />,
+        children: [
+          {
+            path: 'allUsers',
+            element: <UsersPage/>,
+            loader: usersLoader,
+          },
+        ]
       },
       {
-        path: 'Login',
-        element: <Login/>
+        path: 'auth',
+        element: <AuthForm/>,
+        action: authAction,
       }
     ]
   }

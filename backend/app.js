@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(authRoutes);
+app.use('/users', authRoutes);
 
 app.use('/events', eventRoutes);
 

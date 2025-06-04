@@ -16,6 +16,14 @@ async function add(data) {
   return { id: userId, email: data.email };
 }
 
+async function getAll() {
+  const storedData = await readData();
+  if (!storedData.users) {
+    throw new NotFoundError('Could not find any users.');
+  }
+  return storedData.users;
+}
+
 async function get(email) {
   const storedData = await readData();
   if (!storedData.users || storedData.users.length === 0) {
@@ -32,3 +40,6 @@ async function get(email) {
 
 exports.add = add;
 exports.get = get;
+exports.getAll = getAll;
+
+
