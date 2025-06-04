@@ -1,7 +1,8 @@
 const express = require('express');
-const { add, get, getAll } = require('../data/user');
+const { add, get, getById, getAll, remove } = require('../data/user');
 const { createJSONToken, isValidPassword } = require('../util/auth');
 const { isValidEmail, isValidText } = require('../util/validation');
+const { checkAuth } = require('../util/auth');
 
 const router = express.Router();
 
@@ -70,6 +71,27 @@ router.get('/', async (req, res, next) => {
   try {
     const users = await getAll();
     res.json({ users: users });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    console.log("get data hitted");
+    const user = await getById(req.params.id);
+    res.json({ user: user });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.use(checkAuth);
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await remove(req.params.id);
+    res.json({ message: 'User deleted.' });
   } catch (error) {
     next(error);
   }

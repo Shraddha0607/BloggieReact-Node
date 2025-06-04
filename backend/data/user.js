@@ -38,8 +38,30 @@ async function get(email) {
   return user;
 }
 
+async function getById(id) {
+  const storedData = await readData();
+  if (!storedData.users || storedData.users.length === 0) {
+    throw new NotFoundError('Could not find any users.');
+  }
+
+  const event = storedData.users.find((user) => user.id === id);
+  if (!event) {
+    throw new NotFoundError('Could not find event for id ' + id);
+  }
+
+  return event;
+}
+
+async function remove(id) {
+  const storedData = await readData();
+  const updatedData = storedData.users.filter((user) => user.id !== id);
+  await writeData({ ...storedData, users: updatedData });
+}
+
 exports.add = add;
 exports.get = get;
 exports.getAll = getAll;
+exports.remove = remove;
+exports.getById = getById;
 
 

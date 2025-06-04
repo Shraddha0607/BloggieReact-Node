@@ -1,6 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link, useSubmit, useRouteLoaderData } from "react-router-dom"
 
 function UsersList({ users }) {
+    const token = useRouteLoaderData('root');
+
+    const submit = useSubmit();
+
+    function deleteHandler(id) {
+        const proceed = window.confirm('Are you sure?');
+
+        if (proceed) {
+            submit(null, { method: 'delete', action: `/admin/users/${id}` });
+        }
+    }
+
     return (
         <>
             <h1>All registered users </h1>
@@ -20,7 +32,7 @@ function UsersList({ users }) {
                                 <td>{user.id}</td>
                                 <td>{user.email}</td>
                                 <td><Link to=''>Edit</Link></td>
-                                <td><Link to=''>Delete</Link></td>
+                                <td><button onClick={() => deleteHandler(user.id)}>Delete</button></td>
                             </tr>
                         ))}
                     </tbody>

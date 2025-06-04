@@ -19,7 +19,7 @@ function AdminNavigation() {
                             <Link className="nav-link" to="Admin">Show All Blog Post</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="allUsers">Show All User</Link>
+                            <Link className="nav-link" to="users">Show All User</Link>
                         </li>
                     </ul>
                 </div>

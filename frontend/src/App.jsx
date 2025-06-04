@@ -6,12 +6,15 @@ import MainLayout from './components/MainLayout'
 import Home from './pages/Home';
 import AdminLayout from './components/AdminLayout';
 import AuthForm, { action as authAction } from './components/AuthForm';
-import UsersPage, {loader as usersLoader} from './components/user/Users';
+import UsersPage, {loader as usersLoader, action as deleteUserAction} from './components/user/Users';
+import { loader as tokenLoader } from './util/auth';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
+    loader: tokenLoader,
+    id: 'root',
     children: [
       {
         path: '',
@@ -22,9 +25,15 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           {
-            path: 'allUsers',
+            path: 'users',
             element: <UsersPage/>,
             loader: usersLoader,
+            children: [
+              {
+                path: ':userId',
+                action: deleteUserAction,
+              },
+            ]
           },
         ]
       },
