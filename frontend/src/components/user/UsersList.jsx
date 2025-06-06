@@ -31,7 +31,7 @@ function UsersList({ users }) {
                             <tr key={user.id}>
                                 <td>{user.id}</td>
                                 <td>{user.email}</td>
-                                <td><Link to=''>Edit</Link></td>
+                                <td><Link to={`${user.id}/edit`}>Edit</Link></td>
                                 <td><button onClick={() => deleteHandler(user.id)}>Delete</button></td>
                             </tr>
                         ))}

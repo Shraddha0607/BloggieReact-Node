@@ -52,6 +52,22 @@ async function getById(id) {
   return event;
 }
 
+async function replace(id, data) {
+  const storedData = await readData();
+  if (!storedData.users || storedData.users.length === 0) {
+    throw new NotFoundError('Could not find any users.');
+  }
+
+  const index = storedData.users.findIndex((user) => user.id === id);
+  if (index < 0) {
+    throw new NotFoundError('Could not find user for id ' + id);
+  }
+
+  storedData.users[index] = { ...data, id };
+
+  await writeData(storedData);
+}
+
 async function remove(id) {
   const storedData = await readData();
   const updatedData = storedData.users.filter((user) => user.id !== id);
@@ -63,5 +79,6 @@ exports.get = get;
 exports.getAll = getAll;
 exports.remove = remove;
 exports.getById = getById;
+exports.replace = replace;
 
 

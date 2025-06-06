@@ -1,5 +1,5 @@
 const express = require('express');
-const { add, get, getById, getAll, remove } = require('../data/user');
+const { add, get, getById, getAll, remove, replace } = require('../data/user');
 const { createJSONToken, isValidPassword } = require('../util/auth');
 const { isValidEmail, isValidText } = require('../util/validation');
 const { checkAuth } = require('../util/auth');
@@ -92,6 +92,43 @@ router.delete('/:id', async (req, res, next) => {
   try {
     await remove(req.params.id);
     res.json({ message: 'User deleted.' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/:id', async (req, res, next) => {
+  const data = req.body;
+  let errors = {};
+
+  if (!isValidEmail(data.email)) {
+    errors.email = 'Invalid email.';
+  } else {
+    try {
+      const existingUser = await get(data.email);
+      if (existingUser) {
+        errors.email = 'Email exists already.';
+      }
+    } catch (error) {}
+  }
+
+  if (!isValidText(data.password, 6)) {
+    errors.password = 'Invalid password. Must be at least 6 characters long.';
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return res.status(422).json({
+      message: 'User updation failed due to validation errors.',
+      errors,
+    });
+  }
+
+  try {
+    
+   await replace(req.params.id, data);
+    res
+      .status(201)
+      .json({ message: 'User updated.', user: data});
   } catch (error) {
     next(error);
   }

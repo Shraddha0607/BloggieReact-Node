@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 function AdminNavigation() {
     return (
@@ -7,19 +7,19 @@ function AdminNavigation() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item mb-5">
-                            <Link className="nav-link active" aria-current="page" to="">Add Tag</Link>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} aria-current="page" to="Admin">Add Tag</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="Admin">Show All Tag</Link>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="Admin">Show All Tag</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="Admin">Add Blog Post</Link>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="Admin">Add Blog Post</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="Admin">Show All Blog Post</Link>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="Admin">Show All Blog Post</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="users">Show All User</Link>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="users">Show All User</NavLink>
                         </li>
                     </ul>
                 </div>

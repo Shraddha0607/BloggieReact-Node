@@ -11,3 +11,13 @@ export function getAuthToken() {
 export function loader() {
     return getAuthToken();
 }
+
+export function checkAuthLoader() {
+    const token = getAuthToken();
+
+    if(!token) {
+        return redirect('/auth');
+    }
+
+    return null;
+}

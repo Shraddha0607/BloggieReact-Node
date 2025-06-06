@@ -63,7 +63,7 @@ export async function action({ request }) {
         return response;
     }
 
-    if(!response) {
+    if(!response.ok) {
         throw new Response ({ message: 'Could not authenticate user.'}, { status: 500 });
     }
 
@@ -71,6 +71,9 @@ export async function action({ request }) {
     const token = resData.token;
 
     localStorage.setItem('token', token);
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
+    localStorage.setItem('expiration', expiration.toISOString());
 
     return redirect('/');
 
