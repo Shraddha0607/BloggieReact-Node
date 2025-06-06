@@ -10,6 +10,7 @@ import UsersPage, { loadUsers as usersLoader, action as deleteUserAction } from 
 import { loader as tokenLoader, checkAuthLoader } from './util/auth';
 import EditUserPage, { action as manipulateUserAction, loader as editUserPageLoader, } from './components/user/EditUser';
 import { action as logoutAction } from './pages/Logout';
+import TagsPage , { loader as tagLoader, action as deleteTagAction } from './components/tag/Tags';
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,19 @@ const router = createBrowserRouter([
             id: 'user-detail',
             loader: checkAuthLoader,
             action: deleteUserAction,
-          }
+          },
+          {
+            path: 'tags',
+            element: <TagsPage />,
+            loader: tagLoader,
+            id: 'tags',
+          },
+          {
+            path: 'tags/:tagId',
+            id: 'tag-detail',
+            loader: checkAuthLoader,
+            action: deleteTagAction,
+          },
         ]
       },
       {
