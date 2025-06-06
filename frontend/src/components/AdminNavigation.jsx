@@ -7,7 +7,7 @@ function AdminNavigation() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item mb-5">
-                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} aria-current="page" to="Admin">Add Tag</NavLink>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} aria-current="page" to="admin/newTag">Add Tag</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="tags">Show All Tag</NavLink>

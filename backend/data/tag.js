@@ -11,6 +11,12 @@ async function getAll() {
   return storedData.tags;
 }
 
+async function add(data) {
+  const storedData = await readData();
+  storedData.tags.unshift({ ...data, id: generateId() });
+  await writeData(storedData);
+}
+
 async function remove(id) {
   const storedData = await readData();
   const updatedData = storedData.tags.filter((tag) => tag.id !== id);
@@ -19,3 +25,4 @@ async function remove(id) {
 
 exports.getAll = getAll;
 exports.remove = remove;
+exports.add = add;

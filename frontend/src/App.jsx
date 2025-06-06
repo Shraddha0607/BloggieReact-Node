@@ -11,6 +11,7 @@ import { loader as tokenLoader, checkAuthLoader } from './util/auth';
 import EditUserPage, { action as manipulateUserAction, loader as editUserPageLoader, } from './components/user/EditUser';
 import { action as logoutAction } from './pages/Logout';
 import TagsPage , { loader as tagLoader, action as deleteTagAction } from './components/tag/Tags';
+import NewTagPage, { action as addTagAction } from './components/tag/NewTag';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,11 @@ const router = createBrowserRouter([
             element: <TagsPage />,
             loader: tagLoader,
             id: 'tags',
+          },
+          {
+            path: 'admin/newTag',
+            element: <NewTagPage />,
+            action: addTagAction,
           },
           {
             path: 'tags/:tagId',

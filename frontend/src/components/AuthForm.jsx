@@ -2,7 +2,6 @@ import { Link, useSearchParams, Form, redirect } from 'react-router-dom';
 
 function AuthForm() {
     const [searchParams] = useSearchParams();
-    console.log(searchParams, " are the search params");
     const isLogin = searchParams.get('mode') === 'login';
 
 

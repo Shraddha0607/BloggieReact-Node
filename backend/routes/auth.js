@@ -78,7 +78,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    console.log("get data hitted");
     const user = await getById(req.params.id);
     res.json({ user: user });
   } catch (error) {

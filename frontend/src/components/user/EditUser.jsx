@@ -57,7 +57,6 @@ async function loadUser(id) {
     }
     else {
         const resData = await response.json();
-        console.log("after http request ", resData);
         return resData.user;
     }
 }
