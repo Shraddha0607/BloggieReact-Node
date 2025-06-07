@@ -10,8 +10,10 @@ import UsersPage, { loadUsers as usersLoader, action as deleteUserAction } from 
 import { loader as tokenLoader, checkAuthLoader } from './util/auth';
 import EditUserPage, { action as manipulateUserAction, loader as editUserPageLoader, } from './components/user/EditUser';
 import { action as logoutAction } from './pages/Logout';
-import TagsPage , { loader as tagLoader, action as deleteTagAction } from './components/tag/Tags';
-import NewTagPage, { action as addTagAction } from './components/tag/NewTag';
+import TagsPage , { loader as tagsLoader, action as deleteTagAction } from './components/tag/Tags';
+import NewTagPage from './components/tag/NewTag';
+import EditTagPage from './components/tag/EditTag';
+import { action as addTagAction, loader as editTagPageLoader } from './components/tag/TagForm';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
     id: 'root',
     children: [
       {
-        path: '',
+        index: true,
         element: <Home />
       },
       {
@@ -50,12 +52,19 @@ const router = createBrowserRouter([
           {
             path: 'tags',
             element: <TagsPage />,
-            loader: tagLoader,
+            loader: tagsLoader,
             id: 'tags',
           },
           {
-            path: 'admin/newTag',
+            path: 'tags/newTag',
             element: <NewTagPage />,
+            action: addTagAction,
+          },
+          {
+            path: 'tags/:tagId/edit',
+            id: 'tag-details',
+            element: <EditTagPage />,
+            loader: editTagPageLoader,
             action: addTagAction,
           },
           {
@@ -64,6 +73,7 @@ const router = createBrowserRouter([
             loader: checkAuthLoader,
             action: deleteTagAction,
           },
+         
         ]
       },
       {

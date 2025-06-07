@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getAll, remove, add } = require('../data/tag');
+const { getAll, get, remove, add, replace } = require('../data/tag');
 const { checkAuth } = require('../util/auth');
 const { isValidText } = require('../util/validation');
 
@@ -16,12 +16,21 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const tag = await get(req.params.id);
+    res.json({ tag: tag });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.use(checkAuth);
 
 router.post('/', async (req, res, next) => {
   console.log(req.token);
   const data = req.body;
-  debugger;
 
   let errors = {};
 
@@ -48,41 +57,33 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-// router.patch('/:id', async (req, res, next) => {
-//   const data = req.body;
+router.patch('/:id', async (req, res, next) => {
+  const data = req.body;
 
-//   let errors = {};
+  let errors = {};
 
-//   if (!isValidText(data.title)) {
-//     errors.title = 'Invalid title.';
-//   }
+  if (!isValidText(data.name)) {
+    errors.name = 'Invalid name.';
+  }
 
-//   if (!isValidText(data.description)) {
-//     errors.description = 'Invalid description.';
-//   }
+  if (!isValidText(data.displayName)) {
+    errors.displayName = 'Invalid display name.';
+  }
 
-//   if (!isValidDate(data.date)) {
-//     errors.date = 'Invalid date.';
-//   }
+  if (Object.keys(errors).length > 0) {
+    return res.status(422).json({
+      message: 'Updating the tag failed due to validation errors.',
+      errors,
+    });
+  }
 
-//   if (!isValidImageUrl(data.image)) {
-//     errors.image = 'Invalid image.';
-//   }
-
-//   if (Object.keys(errors).length > 0) {
-//     return res.status(422).json({
-//       message: 'Updating the event failed due to validation errors.',
-//       errors,
-//     });
-//   }
-
-//   try {
-//     await replace(req.params.id, data);
-//     res.json({ message: 'Event updated.', event: data });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+  try {
+    await replace(req.params.id, data);
+    res.json({ message: 'Tag updated.', tag: data });
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.delete('/:id', async (req, res, next) => {
   try {
