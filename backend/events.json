@@ -37,5 +37,30 @@
         "id": "27f4820d-4563-4a6e-8ae5-e98e0eeb2403",
         "name": "ASPNET",
         "displayName": "Asp.net Blogs"
+    }],
+    "posts": [{
+        "id": "27f4820d-4563-9a6e-8ae5-e98e0eeb2403",
+        "heading": "Exploring .NET 8 Features",
+        "title": "What’s New in .NET 8",
+        "content": "Microsoft's .NET 8 release introduces several enhancements for cloud-native applications, performance improvements, and simplified APIs. This article explores the key features.",
+        "shortDescription": "A quick look at the new features introduced in .NET 8.",
+        "imageUrl": "https://res.cloudinary.com/derswvhmy/image/upload/v1714885076/Screenshot 2024-05-05 102649.png.png",
+        "urlHandle": "dotnet-8-features",
+        "publishedDate": "2025-05-25",
+        "author": "Shraddha Gaur",
+        "isVisible": true,
+        "tags": [".NET", "C#", "Backend"]
+    }, {
+        "id": "27f4820d-4563-4a6e-8ae5-e98e0eeb2407",
+        "heading": "Understanding REST APIs",
+        "title": "Building REST APIs with Java and Spring",
+        "content": "REST APIs are essential in modern web development. This guide walks through building a simple REST API using Java and Spring Boot, including CRUD operations.",
+        "shortDescription": "Step-by-step guide to building REST APIs with Java and Spring Boot.",
+        "imageUrl": "https://res.cloudinary.com/derswvhmy/image/upload/v1714885076/Screenshot 2024-05-05 102649.png.png",
+        "urlHandle": "rest-api-with-spring",
+        "publishedDate": "2025-04-15",
+        "author": "Shraddha Gaur",
+        "isVisible": true,
+        "tags": ["Java", "API", "Spring Boot"]
     }]
 }

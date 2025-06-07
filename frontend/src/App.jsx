@@ -14,6 +14,7 @@ import TagsPage , { loader as tagsLoader, action as deleteTagAction } from './co
 import NewTagPage from './components/tag/NewTag';
 import EditTagPage from './components/tag/EditTag';
 import { action as addTagAction, loader as editTagPageLoader } from './components/tag/TagForm';
+import PostsPage, { loader as postsLoader, action as deletePostAction } from './components/post/Posts';
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,18 @@ const router = createBrowserRouter([
             id: 'tag-detail',
             loader: checkAuthLoader,
             action: deleteTagAction,
+          },
+          {
+            path: 'posts',
+            element: <PostsPage />,
+            loader: postsLoader,
+            id: 'posts',
+          },
+          {
+            path: 'posts/:postId',
+            id: 'post-detail',
+            loader: checkAuthLoader,
+            action: deletePostAction,
           },
          
         ]
