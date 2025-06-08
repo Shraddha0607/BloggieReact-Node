@@ -13,7 +13,7 @@ function AdminNavigation() {
                             <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="tags">Show All Tag</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="Admin">Add Blog Post</NavLink>
+                            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="posts/newPost">Add Blog Post</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="posts">Show All Blog Post</NavLink>

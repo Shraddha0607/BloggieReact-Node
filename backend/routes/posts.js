@@ -1,8 +1,19 @@
 const express = require('express');
 
-const { getAll, get, remove, add, replace } = require('../data/post');
-const { checkAuth } = require('../util/auth');
-const { isValidText, isValidDate } = require('../util/validation');
+const {
+  getAll,
+  get,
+  remove,
+  add,
+  replace
+} = require('../data/post');
+const {
+  checkAuth
+} = require('../util/auth');
+const {
+  isValidText,
+  isValidDate
+} = require('../util/validation');
 
 const router = express.Router();
 
@@ -10,7 +21,9 @@ router.get('/', async (req, res, next) => {
   console.log(req.token);
   try {
     const posts = await getAll();
-    res.json({ posts: posts });
+    res.json({
+      posts: posts
+    });
   } catch (error) {
     next(error);
   }
@@ -20,11 +33,34 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const tag = await get(req.params.id);
-    res.json({ post: post });
+    res.json({
+      post: post
+    });
   } catch (error) {
     next(error);
   }
 });
+
+router.post('/urlGenerate', async (req, res, next) => {
+  try {
+
+    const data = req.body;
+    console.log(data, " in bk");
+
+    let url = data.fileName;
+    let size = data.fileContent.length;
+    let currentTime = new Date();
+
+    url = data.fileName + size + currentTime;
+    res.json({
+      url: url
+    });
+
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+})
 
 router.use(checkAuth);
 
@@ -76,14 +112,17 @@ router.post('/', async (req, res, next) => {
 
   try {
     await add(data);
-    res.status(201).json({ message: 'Post saved.', post: data });
+    res.status(201).json({
+      message: 'Post saved.',
+      post: data
+    });
   } catch (error) {
     next(error);
   }
 });
 
 router.patch('/:id', async (req, res, next) => {
-   const data = req.body;
+  const data = req.body;
 
   let errors = {};
 
@@ -128,7 +167,10 @@ router.patch('/:id', async (req, res, next) => {
 
   try {
     await replace(req.params.id, data);
-    res.json({ message: 'Post updated.', post: data });
+    res.json({
+      message: 'Post updated.',
+      post: data
+    });
   } catch (error) {
     next(error);
   }
@@ -137,10 +179,14 @@ router.patch('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     await remove(req.params.id);
-    res.json({ message: 'Post deleted.' });
+    res.json({
+      message: 'Post deleted.'
+    });
   } catch (error) {
     next(error);
   }
 });
+
+
 
 module.exports = router;

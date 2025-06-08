@@ -15,6 +15,8 @@ import NewTagPage from './components/tag/NewTag';
 import EditTagPage from './components/tag/EditTag';
 import { action as addTagAction, loader as editTagPageLoader } from './components/tag/TagForm';
 import PostsPage, { loader as postsLoader, action as deletePostAction } from './components/post/Posts';
+import NewPostPage from './components/post/NewPost';
+import { action as addPostAction } from './components/tag/TagForm';
 
 const router = createBrowserRouter([
   {
@@ -79,6 +81,11 @@ const router = createBrowserRouter([
             element: <PostsPage />,
             loader: postsLoader,
             id: 'posts',
+          },
+          {
+            path: 'posts/newPost',
+            element: <NewPostPage />,
+            action: addPostAction,
           },
           {
             path: 'posts/:postId',

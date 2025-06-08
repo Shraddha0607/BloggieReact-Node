@@ -26,14 +26,14 @@ function TagForm({ method, tag }) {
                 <div className="row mb-3">
                     <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
                     <div className="col-sm-10">
-                        <input type="name" className="form-control" id="name" name="name" required
+                        <input type="text" className="form-control" id="name" name="name" required
                             defaultValue={tag ? tag.name : ''} />
                     </div>
                 </div>
                 <div className="row mb-3">
                     <label htmlFor="displayName" className="col-sm-2 col-form-label">Display Name</label>
                     <div className="col-sm-10">
-                        <input type="displayName" className="form-control" id="displayName" name="displayName" required
+                        <input type="text" className="form-control" id="displayName" name="displayName" required
                             defaultValue={tag ? tag.displayName : ''} />
                     </div>
                 </div>
