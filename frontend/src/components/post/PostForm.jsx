@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useActionData, Form, useRouteLoaderData } from "react-router-dom";
 
 function PostForm({ method, post }) {
+    const [generatedImageUrl, setGeneratedImageUrl] = useState('');
     const token = useRouteLoaderData('root');
 
     const data = useActionData();
@@ -19,12 +20,11 @@ function PostForm({ method, post }) {
         const reader = new FileReader();
         reader.onload = async (event) => {
             // console.log(event.target.result);
-            fileContent = event.target.result;
-            console.log("file content ", fileContent);
+            const base64 = reader.result.split(',')[1];
 
             const imageData = {
                 fileName: file.name,
-                fileContent
+                fileContent: base64,
             }
 
             let url = 'http://localhost:8080/cdn/urlGenerate';
@@ -41,41 +41,25 @@ function PostForm({ method, post }) {
 
 
                 if (!response.ok) {
-
+                    throw error('File not uploaded properly.');
                 }
 
-                
-
                 const resData = await response.json();
-
-
-                console.log(resData, " is response");
+                setGeneratedImageUrl(resData.url);
             }
             catch (error) {
                 console.log(error);
             }
-
-
         }
 
 
         reader.readAsDataURL(file);
 
-        console.log("file name is ", file.name);
-        console.log("file data is ", fileContent);
-
-        console.log(file, " is the file data");
 
 
-
-        // do api call
-        // try{
-        //     const response = 
-        // }
 
     }
 
-    // console.log(selectedFile , " is  file name ", fileContent, " is the content ");
 
     return (
         <div className='container py-3'>
@@ -128,7 +112,7 @@ function PostForm({ method, post }) {
                     <label htmlFor="imageUrl" className="col-sm-2 col-form-label">Featured Image URL</label>
                     <div className="col-sm-10">
                         <input type="url" className="form-control" id="imageUrl" name="imageUrl" required
-                            defaultValue={post ? post.imageUrl : ''} />
+                            defaultValue={post ? post.imageUrl : generatedImageUrl} />
                     </div>
                 </div>
                 <div className="row mb-3">
@@ -142,7 +126,7 @@ function PostForm({ method, post }) {
                     <label htmlFor="publishedDate" className="col-sm-2 col-form-label">Published Date</label>
                     <div className="col-sm-10">
                         <input type="date" className="form-control" id="publishedDate" name="publishedDate" required
-                            defaultValue={post ? post.publishedDate : ''} />
+                            defaultValue={post ? post.publishedDate : new Date().toISOString().split('T')[0]} readOnly/>
                     </div>
                 </div>
                 <div className="row mb-3">

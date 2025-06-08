@@ -39,7 +39,6 @@ router.post('/urlGenerate', async (req, res, next) => {
     try {
 
         const data = req.body;
-        // console.log(data, " in bk");
 
         let fileName = getFileName(data.fileName);
         let filePath = path.join(cdnDirPath, fileName);
@@ -50,13 +49,11 @@ router.post('/urlGenerate', async (req, res, next) => {
             if (err) {
                 return console.error('Error creating directory:', err);
             }
-            console.log('Directory created successfully!');
         });
 
         saveFile(filePath, data.fileContent);
 
         const fullUrl = req.protocol + '://' + req.get('host') + '/' + fileName;
-        console.log("ful url is ", fullUrl);
 
         res.json({
             url: fullUrl
@@ -73,7 +70,6 @@ const getFileName = (fileName) => {
 }
 
 function saveFile(filePath, base64StrContent) {
-    console.log("file path", filePath);   //  " and content ", base64StrContent
 
     const buffer = Buffer.from(base64StrContent, 'base64');
 
@@ -81,7 +77,7 @@ function saveFile(filePath, base64StrContent) {
         if (err) {
             console.error('Error writing file:', err);
         } else {
-            console.log('File saved successfully!');
+            alert('Image uploaded successfully.');
         }
     });
 }

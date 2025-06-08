@@ -41,27 +41,6 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// router.post('/urlGenerate', async (req, res, next) => {
-//   try {
-
-//     const data = req.body;
-//     console.log(data, " in bk");
-
-//     let url = data.fileName;
-//     let size = data.fileContent.length;
-//     let currentTime = new Date();
-
-//     url = data.fileName + size + currentTime;
-//     res.json({
-//       url: url
-//     });
-
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-// });
-
 router.use(checkAuth);
 
 router.post('/', async (req, res, next) => {

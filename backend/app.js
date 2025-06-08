@@ -13,7 +13,6 @@ const cdnRoutes = require('./routes/cdn');
 
 
 const app = express();
-console.log(path.join(__dirname, 'routes', 'cdn-images'));
 
 app.use(express.static(path.join(__dirname, 'routes','cdn-images')));
 
