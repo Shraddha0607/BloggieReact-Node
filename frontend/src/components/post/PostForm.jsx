@@ -27,7 +27,7 @@ function PostForm({ method, post }) {
                 fileContent
             }
 
-            let url = 'http://localhost:8080/posts/urlGenerate';
+            let url = 'http://localhost:8080/cdn/urlGenerate';
 
             try {
                 const response = await fetch(url, {

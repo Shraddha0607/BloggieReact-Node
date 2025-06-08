@@ -1,3 +1,4 @@
+const path= require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 debugger;
@@ -6,8 +7,16 @@ const eventRoutes = require('./routes/events');
 const authRoutes = require('./routes/auth');
 const tagRoutes = require('./routes/tags');
 const postRoutes = require('./routes/posts');
+const cdnRoutes = require('./routes/cdn');
+
+
+
 
 const app = express();
+console.log(path.join(__dirname, 'routes', 'cdn-images'));
+
+app.use(express.static(path.join(__dirname, 'routes','cdn-images')));
+
 app.use(express.json({
   limit: '10mb'
 }));
@@ -30,6 +39,7 @@ app.use('/users', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/tags', tagRoutes);
 app.use('/posts', postRoutes);
+app.use('/cdn', cdnRoutes);
 
 app.use((error, req, res, next) => {
   const status = error.status || 500;
