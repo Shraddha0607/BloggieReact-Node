@@ -14,7 +14,7 @@ function PostList({ posts }) {
     }
 
     return (
-        <>
+        <div className="container">
             <h1>All Tags </h1>
             <div>
                 <table className="table">
@@ -51,7 +51,7 @@ function PostList({ posts }) {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     )
 }
 

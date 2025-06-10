@@ -1,28 +1,28 @@
 import { Await, redirect, useRouteLoaderData } from "react-router-dom";
-import TagList from "./TagList";
+import PostList from "./PostList";
 import { Suspense } from "react";
-import { getAuthToken } from "../../util/auth";
+import { getAuthToken } from "../../../util/auth";
 
-function TagsPage() {
-    const { tags } = useRouteLoaderData('tags');
+function PostsPage() {
+    const { posts } = useRouteLoaderData('posts');
 
     return (
         <Suspense fallback={<p>Loading...</p>} >
-            <Await resolve={tags}>
-                {(loadedTags) => <TagList tags={loadedTags} />}
+            <Await resolve={posts}>
+                {(loadedPosts) => <PostList posts={loadedPosts} />}
             </Await>
         </Suspense>
     )
 }
 
-export default TagsPage;
+export default PostsPage;
 
 export async function loader() {
-    const response = await fetch('http://localhost:8080/tags');
+    const response = await fetch('http://localhost:8080/posts');
 
     if (!response.ok) {
         throw new Response({
-            message: 'Could not fetch tags.'
+            message: 'Could not fetch posts.'
         },
             {
                 status: 500,
@@ -30,17 +30,17 @@ export async function loader() {
     }
     else {
         const resData = await response.json();
-        return { tags: resData.tags };
+        return { posts: resData.posts };
     }
 }
 
 
 export async function action({ params, request }) {
 
-    const tagId = params.tagId;
+    const postId = params.postId;
     const token = getAuthToken();
 
-    const response = await fetch('http://localhost:8080/tags/' + tagId, {
+    const response = await fetch('http://localhost:8080/posts/' + postId, {
         method: request.method,
         headers: {
             'Authorization': 'Bearer ' + token
@@ -49,10 +49,10 @@ export async function action({ params, request }) {
 
     if (!response.ok) {
         throw new Response(
-            { message: 'Could not delete tag.' },
+            { message: 'Could not delete post.' },
             { status: 500 }
         );
     }
 
-    return redirect('/admin/tags');
+    return redirect('/admin/posts');
 }

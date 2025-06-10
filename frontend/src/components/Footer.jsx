@@ -2,11 +2,9 @@ import React from 'react'
 
 function Footer() {
     return (
-        <>
-            <div className="card-footer bg-transparent border-success">
-                copyright@reserved
-            </div>
-        </>
+        <div className="card-footer bg-transparent border-success text-center">
+            Bloggie  © 2024 - reserved
+        </div>
     )
 }
 

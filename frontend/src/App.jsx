@@ -3,22 +3,23 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import MainLayout from './components/MainLayout'
 
-import Home from './pages/Home';
+import Home, {loader as homeLoader} from './pages/Home';
 import AdminLayout from './components/AdminLayout';
 import AuthForm, { action as authAction } from './components/AuthForm';
 import UsersPage, { loadUsers as usersLoader, action as deleteUserAction } from './components/user/Users';
 import { loader as tokenLoader, checkAuthLoader } from './util/auth';
 import EditUserPage, { action as manipulateUserAction, loader as editUserPageLoader, } from './components/user/EditUser';
 import { action as logoutAction } from './pages/Logout';
-import TagsPage , { loader as tagsLoader, action as deleteTagAction } from './components/tag/Tags';
-import NewTagPage from './components/tag/NewTag';
-import EditTagPage from './components/tag/EditTag';
-import { action as addTagAction, loader as editTagPageLoader } from './components/tag/TagForm';
-import PostsPage, { loader as postsLoader, action as deletePostAction } from './components/post/Posts';
-import NewPostPage from './components/post/NewPost';
-import { action as addPostAction } from './components/post/PostForm';
-import EditPostPage from './components/post/EditPost';
-import {loader as editPostPageLoader } from './components/post/PostForm';
+import TagsPage , { loader as tagsLoader, action as deleteTagAction } from './components/admin/tag/Tags';
+import NewTagPage from './components/admin/tag/NewTag';
+import EditTagPage from './components/admin/tag/EditTag';
+import { action as addTagAction, loader as editTagPageLoader } from './components/admin/tag/TagForm';
+import PostsPage, { loader as postsLoader, action as deletePostAction } from './components/admin/post/Posts';
+import NewPostPage from './components/admin/post/NewPost';
+import { action as addPostAction } from './components/admin/post/PostForm';
+import EditPostPage from './components/admin/post/EditPost';
+import {loader as editPostPageLoader } from './components/admin/post/PostForm';
+import FullPost from './components/home/FullPost';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
+        loader: homeLoader
+      },
+      {
+        path: 'post/:postUrl',
+        element: <FullPost />,
       },
       {
         path: 'admin',

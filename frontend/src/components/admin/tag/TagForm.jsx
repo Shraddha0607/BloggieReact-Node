@@ -1,5 +1,5 @@
 import { Link, useSearchParams, useNavigate, Form, redirect, useActionData, useNavigation } from 'react-router-dom';
-import { getAuthToken } from '../../util/auth';
+import { getAuthToken } from '../../../util/auth';
 
 function TagForm({ method, tag }) {
     const data = useActionData();
@@ -37,11 +37,11 @@ function TagForm({ method, tag }) {
                             defaultValue={tag ? tag.displayName : ''} />
                     </div>
                 </div>
-                <div>
-                    <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
+                <div className='d-flex justify-content-start'>
+                    <button type="button" onClick={cancelHandler} disabled={isSubmitting} className='mx-2'>
                         Cancel
                     </button>
-                    <button className="btn btn-primary" disabled={isSubmitting}>
+                    <button className="btn btn-dark" disabled={isSubmitting}>
                         {isSubmitting ? 'Submitting' : 'Submit'}</button>
                 </div>
             </Form>

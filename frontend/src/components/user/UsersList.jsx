@@ -14,7 +14,7 @@ function UsersList({ users }) {
     }
 
     return (
-        <>
+        <div className="container">
             <h1>All registered users </h1>
             <div>
                 <table className="table">
@@ -38,7 +38,7 @@ function UsersList({ users }) {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     )
 }
 

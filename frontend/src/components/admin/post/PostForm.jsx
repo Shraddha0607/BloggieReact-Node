@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useActionData, Form, useRouteLoaderData, redirect, useNavigation, useNavigate } from "react-router-dom";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { getAuthToken } from "../../util/auth";
+import { getAuthToken } from "../../../util/auth";
 
 function PostForm({ method, post }) {
     const [generatedImageUrl, setGeneratedImageUrl] = useState('');
@@ -192,11 +192,11 @@ function PostForm({ method, post }) {
                         <label className="form-check-label" htmlFor="isVisible" >Is Visible </label>
                     </div>
 
-                    <div>
-                        <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
+                    <div className='d-flex justify-content-start'>
+                        <button type="button" onClick={cancelHandler} disabled={isSubmitting} className="mx-2">
                             Cancel
                         </button>
-                        <button className="btn btn-primary" disabled={isSubmitting}>
+                        <button className="btn btn-dark" disabled={isSubmitting}>
                             {isSubmitting ? 'Submitting' : 'Submit'}</button>
                     </div>
                 </Form>

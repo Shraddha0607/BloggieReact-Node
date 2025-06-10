@@ -14,7 +14,7 @@ function TagList({ tags }) {
     }
 
     return (
-        <>
+        <div className="container">
             <h1>All Tags </h1>
             <div>
                 <table className="table">
@@ -40,7 +40,7 @@ function TagList({ tags }) {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     )
 }
 
