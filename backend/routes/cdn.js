@@ -19,20 +19,15 @@ const {
 
 const cdnDirPath = path.join(__dirname, 'cdn-images');
 
-const router = express.Router();
-
-router.get('/:id', async (req, res, next) => {
-    console.log(req.token);
-    try {
-        const tags = await getAll();
-        res.json({
-            tags: tags
-        });
-    } catch (error) {
-        next(error);
+fs.mkdir(cdnDirPath, {
+    recursive: true
+}, (err) => {
+    if (err) {
+        return console.error('Error creating directory:', err);
     }
 });
 
+const router = express.Router();
 
 
 router.post('/urlGenerate', async (req, res, next) => {
@@ -43,13 +38,7 @@ router.post('/urlGenerate', async (req, res, next) => {
         let fileName = getFileName(data.fileName);
         let filePath = path.join(cdnDirPath, fileName);
 
-        fs.mkdir(cdnDirPath, {
-            recursive: true
-        }, (err) => {
-            if (err) {
-                return console.error('Error creating directory:', err);
-            }
-        });
+
 
         saveFile(filePath, data.fileContent);
 
@@ -65,6 +54,40 @@ router.post('/urlGenerate', async (req, res, next) => {
     }
 });
 
+// router.post('/upload', (req, res) => {
+//     console.log("back hit ", req.files);
+//     if (!req.files || !Object.keys(req.files)) {
+//         return res.status(400).send({
+//             message: 'No file uploaded'
+//         });
+//     }
+
+//     let response = {};
+
+//     for (let file in req.files) {
+
+//         const uploadedFile = req.files[file];
+//         let fileName = getFileName(uploadedFile.name);
+//         let filePath = path.join(cdnDirPath, fileName);
+
+//         uploadedFile.mv(filePath, (err) => {
+//             if (err) {
+//                 response[file] = {
+//                     message: 'Upload failed',
+//                     success: false
+//                 };
+//             } else {
+//                 const fullUrl = req.protocol + '://' + req.get('host') + '/' + fileName;
+//                 response[file] = {
+//                     message: fullUrl,
+//                     success: true
+//                 };
+//             }
+//         });
+//     }
+//     res.send(response);
+// });
+
 const getFileName = (fileName) => {
     return (new Date().getTime() + '_' + fileName.length + "_" + fileName.toLowerCase()).replace(/\s/, '');
 }
@@ -77,7 +100,7 @@ function saveFile(filePath, base64StrContent) {
         if (err) {
             console.error('Error writing file:', err);
         } else {
-            alert('Image uploaded successfully.');
+            console.log('Image uploaded successfully.');
         }
     });
 }

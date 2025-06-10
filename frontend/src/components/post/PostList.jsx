@@ -3,8 +3,6 @@ import { Link, useSubmit, useRouteLoaderData } from "react-router-dom"
 function PostList({ posts }) {
     const token = useRouteLoaderData('root');
 
-    console.log(posts);
-
     const submit = useSubmit();
 
     function deleteHandler(id) {
@@ -32,7 +30,6 @@ function PostList({ posts }) {
                     </thead>
                     <tbody>
                         {posts.map((post) => {
-                            console.log(post);
                             return (
                                 <tr key={post.id}>
                                     <td>{post.id}</td>

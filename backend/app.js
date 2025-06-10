@@ -1,6 +1,7 @@
 const path= require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
+const fileUpload = require('express-fileupload');
 debugger;
 
 const eventRoutes = require('./routes/events');
@@ -26,7 +27,22 @@ app.use(express.urlencoded({
   parameterLimit: 50000
 }));
 
+// app.use(fileUpload({
+//   limits: { fileSize: 50 * 1024 * 1024 },
+// }));
+
+
+// app.post('/upload', (req, res) => {
+//   if (!req.files) {
+//     return res.status(400).send('No file uploaded');
+//   }
+
+//   console.log(req.files); // Should print file info
+//   res.send('File received');
+// });
+
 app.use(bodyParser.json());
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE');
