@@ -12,7 +12,8 @@ const {
 } = require('../util/auth');
 const {
   isValidText,
-  isValidDate
+  isValidDate,
+  isValidImageUrl,
 } = require('../util/validation');
 
 const router = express.Router();
@@ -32,7 +33,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const tag = await get(req.params.id);
+    const post = await get(req.params.id);
     res.json({
       post: post
     });
@@ -45,49 +46,59 @@ router.use(checkAuth);
 
 router.post('/', async (req, res, next) => {
   console.log(req.token);
+  console.log("backend hit");
   const data = req.body;
+  console.log(data.content, " is the content");
 
   let errors = {};
 
-  if (!isValidText(data.heading)) {
-    errors.heading = 'Invalid heading.';
+  try {
+    if (!isValidText(data.heading)) {
+      errors.heading = 'Invalid heading.';
+    }
+
+    if (!isValidText(data.title)) {
+      errors.title = 'Invalid title.';
+    }
+
+    // if (!isValidText(data.content)) {
+    //   errors.content = 'Invalid content.';
+    // }
+
+    if (!isValidText(data.shortDescription)) {
+      errors.shortDescription = 'Invalid short description.';
+    }
+
+    if (!isValidImageUrl(data.imageUrl)) {
+      errors.imageUrl = 'Invalid image.';
+    }
+
+    if (!isValidText(data.urlHandler)) {
+      errors.urlHandler = 'Invalid URL Handler.';
+    }
+
+    if (!isValidDate(data.publishedDate)) {
+      errors.publishedDate = 'Invalid date.';
+    }
+
+    if (!isValidText(data.author)) {
+      errors.author = 'Invalid author.';
+    }
+
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(422).json({
+        message: 'Adding the post failed due to validation errors.',
+        errors,
+      });
+    }
+  } catch (error) {
+    console.log("error at the time of validation");
+    console.log(error);
   }
 
-  if (!isValidText(data.title)) {
-    errors.title = 'Invalid title.';
-  }
-
-  if (!isValidText(data.content)) {
-    errors.content = 'Invalid content.';
-  }
-
-  if (!isValidText(data.shortDescription)) {
-    errors.shortDescription = 'Invalid short description.';
-  }
-
-  if (!isValidImageUrl(data.imageUrl)) {
-    errors.imageUrl = 'Invalid image.';
-  }
-
-  if (!isValidText(data.urlHandler)) {
-    errors.urlHandler = 'Invalid URL Handler.';
-  }
-
-  if (!isValidDate(data.date)) {
-    errors.date = 'Invalid date.';
-  }
-
-  if (!isValidText(data.author)) {
-    errors.author = 'Invalid author.';
-  }
 
 
-  if (Object.keys(errors).length > 0) {
-    return res.status(422).json({
-      message: 'Adding the post failed due to validation errors.',
-      errors,
-    });
-  }
 
   try {
     await add(data);
