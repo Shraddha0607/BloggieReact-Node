@@ -16,7 +16,7 @@ function PostCard({ post }) {
                     ))}
                 </div>
                 <p className="card-text">{post.shortDescription}</p>
-                <Link to="post/dfd" className="btn btn-dark">Read More</Link>
+                <Link to={`post/${post.urlHandler}`} className="btn btn-dark">Read More</Link>
             </div>
         </div>
     )

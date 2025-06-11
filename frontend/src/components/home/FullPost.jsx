@@ -1,44 +1,97 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { useLoaderData, Form } from 'react-router-dom';
+import { getAuthToken } from '../../util/auth';
 
 function FullPost() {
-    const post = {
-        heading: "heading",
-        author: 'Sid',
-        publishedDate: '09-08-2024',
-        imageUrl: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg'
 
-    };
+    const token = getAuthToken();
+
+    // const url = 'http://localhost:8080/posts/';
+
+    const dislikeHandler = async () =>  {
+
+        try {
+            const id = post.id;
+            const url = 'http://localhost:8080/posts/dislike/' + id;
+            // url = `${url}dislike/${id}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                throw new Response(
+                    { message: 'Could able to dislike post!' },
+                    { status: 500 }
+                )
+            }
+            else {
+                alert("Thank you for your feedback.");
+            }
+        }
+        catch (error) {
+        }
+    }
+
+    const likeHandler = async () => {
+         try {
+            const id = post.id;
+            const url = 'http://localhost:8080/posts/like/' + id;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                throw new Response(
+                    { message: 'Could able to like post!' },
+                    { status: 500 }
+                )
+            }
+            else {
+                alert("Thank you for your feedback.");
+            }
+        }
+        catch (error) {
+        }
+    }
 
     return (
         <div className="container" >
 
             <div className="m-3">
-                <h2 className="card-title">{post.heading}</h2>
+                <h1 className="card-title">{post.heading}</h1>
                 <div className="d-flex justify-content-between">
                     <p className="card-title">{post.author}</p>
                     <p className="card-title">{post.publishedDate}</p>
                 </div>
-                <img src={post.imageUrl} className="card-img-top m-4" alt="..." />
+                <img src={`http://localhost:8080/${post.imageUrl}`} className="card-img-top m-4" alt="..." />
                 <div className="card-body">
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                    <p className="card-text">{post.content}</p>
                 </div>
             </div>
 
             <div className='mx-3'>
-                
-                <span><FontAwesomeIcon icon={faThumbsUp} /> {0}</span>
-                <span style={{ marginLeft: '1rem' }}><FontAwesomeIcon icon={faThumbsDown} /> {0}</span>
+
+                <span><FontAwesomeIcon icon={faThumbsUp} onClick={likeHandler} /> {post.likes}</span>
+                <span style={{ marginLeft: '1rem' }}><FontAwesomeIcon icon={faThumbsDown} onClick={dislikeHandler} /> {post.dislikes}</span>
             </div>
             <div className="card m-3" >
                 <div className="card-body ">
-                    <form>
+                    <Form method='post'>
                         <div className="mb-3">
                             <label htmlFor="comment" className="form-label"><strong>Comment</strong></label>
-                            <input type="text" className="form-control" id="comment" />
+                            <input type="text" className="form-control" id="comment" name="comment" required/>
                         </div>
-                        <button type="submit" className="btn btn-dark">Submit</button>
-                    </form>
+                        <button className="btn btn-dark">Submit</button>
+                    </Form>
                 </div>
             </div>
 
@@ -46,4 +99,34 @@ function FullPost() {
     )
 }
 
-export default FullPost
+export default FullPost;
+
+
+export async function loader({ params, request }) {
+
+    const urlHandler = params.postUrl;
+
+    const response = await fetch('http://localhost:8080/posts/byUrl/' + urlHandler);
+
+    if (!response.ok) {
+        throw new Response(
+            { message: 'Could not fetch post data!' },
+            { status: 500 }
+        )
+    }
+    else {
+        const resData = await response.json();
+        return { post: resData.post };
+    }
+}
+
+export async function action({ params, request }) {
+    console.log("params are ", params);
+    console.log("request is ", request);
+    console.log("comment action hit");
+
+    const data = await request.formData();
+
+    const comment = data.get('comment');
+    console.log("comment is ", comment);
+}

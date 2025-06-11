@@ -5,7 +5,10 @@ const {
   get,
   remove,
   add,
-  replace
+  replace,
+  getByUrl,
+  dislike, 
+  like
 } = require('../data/post');
 const {
   checkAuth
@@ -41,6 +44,43 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+router.get('/byUrl/:urlHandler', async (req, res, next) => {
+  try{
+    const post = await getByUrl(req.params.urlHandler);
+    res.json({
+      post: post
+    });
+  }
+  catch(error) {
+    next(error);
+  }
+});
+
+router.post('/dislike/:id', async (req, res, next) => {
+  try{
+    const status = await dislike(req.params.id);
+    res.json({
+      status: status
+    });
+  }catch(error) {
+    next(error);
+  }
+});
+
+router.post('/like/:id', async (req, res, next) => {
+  try{
+    const status = await like(req.params.id);
+    res.json({
+      status: status
+    });
+  }catch(error) {
+    next(error);
+  }
+});
+
 
 router.use(checkAuth);
 

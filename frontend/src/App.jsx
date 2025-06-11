@@ -19,7 +19,7 @@ import NewPostPage from './components/admin/post/NewPost';
 import { action as addPostAction } from './components/admin/post/PostForm';
 import EditPostPage from './components/admin/post/EditPost';
 import {loader as editPostPageLoader } from './components/admin/post/PostForm';
-import FullPost from './components/home/FullPost';
+import FullPost, {loader as postLoader, action as commentAction} from './components/home/FullPost';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +36,8 @@ const router = createBrowserRouter([
       {
         path: 'post/:postUrl',
         element: <FullPost />,
+        loader: postLoader,
+        action: commentAction
       },
       {
         path: 'admin',
