@@ -10,21 +10,18 @@ function PostForm({ method, post }) {
     const token = useRouteLoaderData('root');
     const [content, setContent] = useState('');
 
-    console.log("post data is ", post);
-    console.log("content data is ", content, " and method is", method);
-
     useEffect(() => {
         if (method === 'patch') {
             setContent(post.content)
+             setGeneratedImageUrl(post.imageUrl);
         };
 
     }, [post, method]);
 
-    // if(method === 'PATCH')
+   
 
 
     const data = useActionData();
-    console.log("after loading data for rendering in form ", post);
     const navigation = useNavigation();
     const navigate = useNavigate();
 
@@ -159,22 +156,27 @@ function PostForm({ method, post }) {
                     <div className="row mb-3">
                         <label htmlFor="content" className="col-sm-2 col-form-label">Featured Image Upload</label>
                         <div className="col-sm-10">
-                            <input type="file" className="form-control" id="content" name="content" required
+                            <input type="file" className="form-control" id="content" name="content" 
+                            required={!generatedImageUrl}
                                 defaultValue=''
                                 onChange={fileHandler} />
+                            {method === 'patch' && post && <div>
+                                <img src={generatedImageUrl} alt='post-image' style={{ height: '200px', width: '230px' }} />
+                            </div>}
                         </div>
+
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="imageUrl" className="col-sm-2 col-form-label">Featured Image URL</label>
                         <div className="col-sm-10">
-                            <input type="url" className="form-control" id="imageUrl" name="imageUrl" required
-                                defaultValue={post ? post.imageUrl : generatedImageUrl} />
+                            <input type="url" className="form-control" id="imageUrl" name="imageUrl" required readOnly
+                                defaultValue={generatedImageUrl} />
                         </div>
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="urlHandler" className="col-sm-2 col-form-label">URL Handler</label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" id="urlHandler" name="urlHandler" required
+                            <input type="text" className="form-control" id="urlHandler" name="urlHandler" required 
                                 defaultValue={post ? post.urlHandler : ''} />
                         </div>
                     </div>
@@ -248,7 +250,7 @@ export async function action({ request, params }) {
         tags: [],
         likes: 0,
         dislikes: 0,
-        comments : []
+        comments: []
 
     };
 

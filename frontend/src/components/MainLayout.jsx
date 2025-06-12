@@ -21,7 +21,6 @@ function MainLayout() {
     }
 
     const tokenDuration = getTokenDuration();
-    console.log(tokenDuration);
 
     setTimeout(() => {
       submit(null, { action: '/logout', method: 'post' })
@@ -37,7 +36,6 @@ function MainLayout() {
           <Outlet />
         </div>
       </main>
-
       <Footer />
     </div>
   )
