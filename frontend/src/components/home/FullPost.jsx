@@ -6,6 +6,7 @@ import { getAuthToken } from '../../util/auth';
 function FullPost() {
 
     const token = getAuthToken();
+    const {post} = useLoaderData();
 
     // const url = 'http://localhost:8080/posts/';
 
@@ -72,10 +73,8 @@ function FullPost() {
                     <p className="card-title">{post.author}</p>
                     <p className="card-title">{post.publishedDate}</p>
                 </div>
-                <img src={`http://localhost:8080/${post.imageUrl}`} className="card-img-top m-4" alt="..." />
-                <div className="card-body">
-                    <p className="card-text">{post.content}</p>
-                </div>
+                <img src={post.imageUrl} className="card-img-top m-4" alt="..." />
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
 
             <div className='mx-3'>

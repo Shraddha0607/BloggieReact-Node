@@ -24,6 +24,9 @@ function MainNavigation() {
                                     <button>Logout</button>
                                 </Form>
                             </li>}
+                            <li className="nav-item mb-5">
+                                <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} aria-current="page" to="ppost"> PPost </NavLink>
+                            </li>
                         </ul>
                     </div>
                 </div>

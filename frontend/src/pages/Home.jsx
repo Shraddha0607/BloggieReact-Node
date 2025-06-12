@@ -49,7 +49,6 @@ export async function loader() {
   else {
     const resData = await response.json();
     const tagResData = await tagResponse.json();
-    console.log("in home , tags are ", tagResData);
 
     return {
       posts: resData.posts,

@@ -3,10 +3,25 @@ import { useActionData, Form, useRouteLoaderData, redirect, useNavigation, useNa
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getAuthToken } from "../../../util/auth";
+import { useEffect } from "react";
 
 function PostForm({ method, post }) {
     const [generatedImageUrl, setGeneratedImageUrl] = useState('');
     const token = useRouteLoaderData('root');
+    const [content, setContent] = useState('');
+
+    console.log("post data is ", post);
+    console.log("content data is ", content, " and method is", method);
+
+    useEffect(() => {
+        if (method === 'patch') {
+            setContent(post.content)
+        };
+
+    }, [post, method]);
+
+    // if(method === 'PATCH')
+
 
     const data = useActionData();
     console.log("after loading data for rendering in form ", post);
@@ -92,8 +107,6 @@ function PostForm({ method, post }) {
 
     }
 
-    const [content, setContent] = useState('');
-
     const modules = {
         toolbar: [
             [{ header: [1, 2, false] }],
@@ -102,7 +115,6 @@ function PostForm({ method, post }) {
         ],
     };
 
-    console.log("content is ", content);
 
     return (
         <div className='container py-3'>
@@ -130,19 +142,12 @@ function PostForm({ method, post }) {
                                 defaultValue={post ? post.title : ''} />
                         </div>
                     </div>
-                    {/* <div className="row mb-3">
-                    <label htmlFor="content" className="col-sm-2 col-form-label">Content</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" id="content" name="content" required
-                            defaultValue={post ? post.content : ''} />
-                    </div>
-                </div> */}
                     <div className="row mb-3">
                         <label htmlFor="content" className="col-sm-2 col-form-label">Content</label>
                         <div className="col-sm-10">
-                            <ReactQuill theme="snow" modules={modules} value={content} onChange={setContent} id="content" name="content" />
+                            <ReactQuill theme="snow" modules={modules} value={content} onChange={setContent} />
+                            <input type="hidden" name="content" value={content} />
                         </div>
-                        {(method === 'patch') && (<div id="myContentDiv" dangerouslySetInnerHTML={{ __html: post.content }} />) }
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="shortDescription" className="col-sm-2 col-form-label">Short Description</label>
@@ -170,7 +175,7 @@ function PostForm({ method, post }) {
                         <label htmlFor="urlHandler" className="col-sm-2 col-form-label">URL Handler</label>
                         <div className="col-sm-10">
                             <input type="text" className="form-control" id="urlHandler" name="urlHandler" required
-                                defaultValue={post ? post.urlHandle : ''} />
+                                defaultValue={post ? post.urlHandler : ''} />
                         </div>
                     </div>
                     <div className="row mb-3">
@@ -240,7 +245,11 @@ export async function action({ request, params }) {
         publishedDate: data.get('publishedDate'),
         author: data.get('author'),
         isVisible: data.get('isVisible'),
-        tags: []
+        tags: [],
+        likes: 0,
+        dislikes: 0,
+        comments : []
+
     };
 
     console.log("post data is ", PostData);

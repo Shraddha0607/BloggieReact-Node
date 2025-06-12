@@ -15,7 +15,7 @@ function PostList({ posts }) {
 
     return (
         <div className="container">
-            <h1>All Tags </h1>
+            <h1>All Posts </h1>
             <div>
                 <table className="table">
                     <thead>
@@ -38,7 +38,7 @@ function PostList({ posts }) {
                                     <td>
                                         <ul>
                                             {post.tags.map((tag) => (
-                                                <button><span key={tag}>{tag}</span></button>
+                                                <button key={tag}><span >{tag}</span></button>
                                     ))}
                                         </ul>
 

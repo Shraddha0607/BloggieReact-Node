@@ -2,7 +2,6 @@ import { useLoaderData } from "react-router-dom"
 
 function About() {
     const tags = useLoaderData().tags;
-    console.log("in about component ", tags);
 
     return (
         <div className=" ">

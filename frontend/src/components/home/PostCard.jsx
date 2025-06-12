@@ -3,7 +3,7 @@ function PostCard({ post }) {
 
     return (
         <div className="card shadow p-3 mb-5 bg-body-tertiary rounded" >
-            <img src={`http://localhost:8080/${post.imageUrl}`} className="card-img-top" alt="..." />
+            <img src={post.imageUrl} className="card-img-top" alt="..." />
             <div className="card-body">
                 <h5 className="card-title">{post.heading}</h5>
                 <div>
