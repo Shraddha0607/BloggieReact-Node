@@ -19,14 +19,11 @@ function MainNavigation() {
                             {!token && <li className="nav-item">
                                 <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} to="/auth?mode=login">Authentication</NavLink>
                             </li>}
-                            {token && <li> 
+                            {token && <li>
                                 <Form action='/logout' method='post'>
                                     <button>Logout</button>
                                 </Form>
                             </li>}
-                            <li className="nav-item mb-5">
-                                <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} aria-current="page" to="ppost"> PPost </NavLink>
-                            </li>
                         </ul>
                     </div>
                 </div>

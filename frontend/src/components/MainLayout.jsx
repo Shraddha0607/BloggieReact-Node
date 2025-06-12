@@ -11,11 +11,11 @@ function MainLayout() {
   const submit = useSubmit();
 
   useEffect(() => {
-    if(!token) {
+    if (!token) {
       return;
     }
 
-    if(token === 'EXPIRED') {
+    if (token === 'EXPIRED') {
       submit(null, { action: '/logout', method: 'post' });
       return;
     }
@@ -24,19 +24,22 @@ function MainLayout() {
     console.log(tokenDuration);
 
     setTimeout(() => {
-      submit(null, {action: '/logout', method: 'post'})
+      submit(null, { action: '/logout', method: 'post' })
     }, tokenDuration);
 
   }, [token, submit]);
 
   return (
-    <>
-      <MainNavigation />
-      <div>
-        <Outlet />
-      </div>
-      <Footer/>
-    </>
+    <div className='d-flex flex-column min-vh-100'>
+      <main className='flex-fill' >
+        <MainNavigation />
+        <div>
+          <Outlet />
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   )
 }
 

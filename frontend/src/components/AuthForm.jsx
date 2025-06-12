@@ -6,7 +6,7 @@ function AuthForm() {
 
 
     return (
-        <div>
+        <div className='container'>
             <Form method='post' >
                 <h1>{isLogin ? 'Log in' : 'Create a new User'}</h1>
                 <div className="row mb-3">
@@ -18,7 +18,7 @@ function AuthForm() {
                 <div className="row mb-3">
                     <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
                     <div className="col-sm-10">
-                        <input type="password" className="form-control" id="password" name="password" required/>
+                        <input type="password" className="form-control" id="password" name="password" required />
                     </div>
                 </div>
                 <div>
@@ -26,7 +26,7 @@ function AuthForm() {
                         {isLogin ? 'Create new user' : 'Login'}
                     </Link>
 
-                    <button className="btn btn-primary">Save</button>
+                    <button className="btn btn-dark mx-2">Save</button>
 
                 </div>
             </Form>
@@ -40,8 +40,8 @@ export async function action({ request }) {
     const searchParams = new URL(request.url).searchParams;
     const mode = searchParams.get('mode') || 'login';
 
-    if(mode != 'login' && mode != 'signup') {
-        throw new Response ({ message: 'Unsupported mode.'}, { status: 422 });
+    if (mode != 'login' && mode != 'signup') {
+        throw new Response({ message: 'Unsupported mode.' }, { status: 422 });
     }
 
     const data = await request.formData();
@@ -58,12 +58,12 @@ export async function action({ request }) {
         body: JSON.stringify(authData)
     });
 
-    if(response.status === 422 || response.status === 401) {
+    if (response.status === 422 || response.status === 401) {
         return response;
     }
 
-    if(!response.ok) {
-        throw new Response ({ message: 'Could not authenticate user.'}, { status: 500 });
+    if (!response.ok) {
+        throw new Response({ message: 'Could not authenticate user.' }, { status: 500 });
     }
 
     const resData = await response.json();
